@@ -22,14 +22,15 @@ if len(folder_list) == len(filename_list) == len(link_list):
 			print("No folder. Making a directory")
 			os.mkdir(folder_list[index])
 
-		####### DOWNLOADING IMAGE #######
-		image_url = link_list[index] # Get image URL		
-		resp = requests.get(image_url, stream=True) # Open the url image, set stream to True, this will return the stream content.
-		local_file = open(folder_path + "/" + filename_list[index]+'.jpg', 'wb') # Open a local file with wb ( write binary ) permission.
-		resp.raw.decode_content = True # Set decode_content value to True, otherwise the downloaded image file's size will be zero.
-		shutil.copyfileobj(resp.raw, local_file) # Syntax is shutil.copyfileobj(file_source, file_destination). # Copy the response stream raw data to local image file.
-		del resp # Remove the image url response object.
-		print(filename_list[index] + " image has been downloaded.")
+		####### DOWNLOADING ATTACHMENT #######
+		attachment_url = link_list[index] # Get attachment URL		
+		extension = os.path.splitext(attachment_url)[-1]
+		resp = requests.get(attachment_url, stream=True) # Open the url attachment, set stream to True, this will return the stream content.
+		local_file = open(folder_path + "/" + filename_list[index]+ extension, 'wb') # Open a local file with wb ( write binary ) permission.
+		resp.raw.decode_content = True # Set decode_content value to True, otherwise the downloaded attachment file's size will be zero.
+		shutil.copyfileobj(resp.raw, local_file) # Syntax is shutil.copyfileobj(file_source, file_destination). # Copy the response stream raw data to local attachment.
+		del resp # Remove the attachment url response object.
+		print(filename_list[index] + " attachment has been downloaded.")
 		
 else:
 	print("The number of rows are not the same across all 3 fields. Please check.")
